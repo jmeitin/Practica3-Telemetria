@@ -1,7 +1,9 @@
-﻿public class Singleton
+﻿//en principio no se usan 
+
+public class Singleton
 {
-    private static Singleton? instance = null;
-private Singleton()
+    private static Singleton instance = null;
+    private Singleton()
     {
     }
     public static Singleton Instance
