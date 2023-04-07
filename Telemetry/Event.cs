@@ -22,7 +22,7 @@ namespace Telemetry
 
         public string ToCSV()
         {
-            string s = "Send Time," + send_time + "Session Id," + id_session + "Session User," + id_user;
+            string s = "Send Time, " + send_time + "Session Id, " + id_session + "Session User, " + id_user;
             return s;
         }
     }
@@ -36,7 +36,7 @@ namespace Telemetry
         public string ToCSV()
         {
             Type type = typeof(StartSession);
-            string s = "Type Event,"+ type.Name + base.ToCSV();
+            string s = "Type Event," + type.Name + " " + base.ToCSV();
             return s;
         }
     }
@@ -49,7 +49,7 @@ namespace Telemetry
         public string ToCSV()
         {
             Type type = typeof(EndSession);
-            string s = "Type Event," + type.Name + base.ToCSV();
+            string s = "Type Event," + type.Name + " " + base.ToCSV();
             return s;
         }
     }
@@ -64,7 +64,7 @@ namespace Telemetry
         public string ToCSV()
         {
             Type type = typeof(StartGame);
-            string s = "Type Event," + type.Name + base.ToCSV() + "Game Id," + id_game;
+            string s = "Type Event, " + type.Name + " " + base.ToCSV() + " Game Id, " + id_game;
             return s;
         }
     }
@@ -79,7 +79,7 @@ namespace Telemetry
         public string ToCSV()
         {
             Type type = typeof(EndGame);
-            string s = "Type Event," + type.Name + base.ToCSV() + "Game Id," + id_game;
+            string s = "Type Event, " + type.Name + " " + base.ToCSV() + " Game Id, " + id_game;
             return s;
         }
     }
@@ -94,10 +94,108 @@ namespace Telemetry
         public string ToCSV()
         {
             Type type = typeof(GameAborted);
-            string s = "Type Event," + type.Name + base.ToCSV() + "Game Id," + id_game;
+            string s = "Type Event, " + type.Name + " " + base.ToCSV() + " Game Id, " + id_game;
             return s;
         }
     }
 
     // EVENTOS "CABLEADOS" DE GETHIGH =======================================================================
+
+    // OBJETIVO 1
+    public class TimeStart : Event
+    {
+        int id_game;
+        int id_quest;
+        int id_setQuest;
+
+        public TimeStart(int user, int session, int game, int question, int questionSet) : base(user, session)
+        {
+            id_game = game;
+            id_quest = question;
+            id_setQuest = questionSet;
+        }
+        public string ToCSV()
+        {
+            Type type = typeof(TimeStart);
+            string s = "Type Event, " + type.Name + " " + base.ToCSV() + " Game Id, " + id_game + ". \n Question Id, " + id_quest + " Question Set Id, " + id_setQuest;
+            return s;
+        }
+    }
+
+    public class TimeReply : Event
+    {
+        int id_game;
+        int id_quest;
+        int id_setQuest;
+        bool correct;
+
+        public TimeReply(int user, int session, int game, int question, int questionSet, bool result) : base(user, session)
+        {
+            id_game = game;
+            id_quest = question;
+            id_setQuest = questionSet;
+            correct = result;
+        }
+        public string ToCSV()
+        {
+            Type type = typeof(TimeReply);
+            string s = "Type Event, " + type.Name + " " + base.ToCSV() + " Game Id, " + id_game + ". \n Question Id, " + id_quest + " Question Set Id, " + id_setQuest + " Correct, " + correct;
+            return s;
+        }
+    }
+
+    // OBJETIVO 2
+    public class GetBlock : Event
+    {
+        int id_game;
+        int id_block;
+
+        public GetBlock(int user, int session, int game, int block) : base(user, session)
+        {
+            id_game = game;
+            id_block = block;
+        }
+        public string ToCSV()
+        {
+            Type type = typeof(GetBlock);
+            string s = "Type Event, " + type.Name + " " + base.ToCSV() + " Game Id, " + id_game + ". \n Block Id, " + id_block;
+            return s;
+        }
+    }
+
+    public class GrabBlock : Event
+    {
+        int id_game;
+        int id_block;
+
+        public GrabBlock(int user, int session, int game, int block) : base(user, session)
+        {
+            id_game = game;
+            id_block = block;
+        }
+        public string ToCSV()
+        {
+            Type type = typeof(GrabBlock);
+            string s = "Type Event, " + type.Name + " " + base.ToCSV() + " Game Id, " + id_game + ". \n Block Id, " + id_block;
+            return s;
+        }
+    }
+
+    public class ReleaseBlock : Event
+    {
+        int id_game;
+        int id_block;
+
+        public ReleaseBlock(int user, int session, int game, int block) : base(user, session)
+        {
+            id_game = game;
+            id_block = block;
+        }
+        public string ToCSV()
+        {
+            Type type = typeof(ReleaseBlock);
+            string s = "Type Event, " + type.Name + " " + base.ToCSV() + " Game Id, " + id_game + ". \n Block Id, " + id_block;
+            return s;
+        }
+    }
 }
