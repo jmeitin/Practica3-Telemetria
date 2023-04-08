@@ -9,7 +9,7 @@ namespace TrackingSystem
     sealed class Tracker
     {
         // Miembros =======================================================
-        private ConcurrentQueue<Event> queue;
+        private ConcurrentQueue<Event> queue; // Cola concurrente de C# para cuando funcionen los hilos
         private static Tracker instance;
         private List<IPersistance> persisters;
         private Thread persistThread;
@@ -44,12 +44,16 @@ namespace TrackingSystem
         }
 
         // Propiedades =====================================================
-        public static Tracker Instance => instance;
+        public static Tracker Instance => instance; // Sigo sin estar seguro de para que queremos esto
 
         // Métodos =========================================================
-        public static void Enqueue(Event evnt)
+        // Quizas esto podria no ser estático para acceder a través de la instancia
+        // pero no sé, también puede ser estático y que el propio método sea el que llame a la instancia, no hay mucha diferencia en verdad
+        // si la instancia es null no hará nada y ya. Quizás debería hacer que devuelva un booleano como teniamos antes, pero no estoy seguro, 
+        // en la plantilla de guille eso no viene. Ademas el track event no deberia fallar, creo
+        public static void TrackEvent(Event evnt)
         {
-            instance.queue.Enqueue(evnt);
+            instance?.queue.Enqueue(evnt);
         }
 
         //private static void PersistLoop()
