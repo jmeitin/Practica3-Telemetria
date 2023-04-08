@@ -17,16 +17,18 @@ namespace Telemetry
 
         public object Serialize(Event e)
         {
-            string result = "Type," + e.GetType().Name + ",";
-
-            PropertyInfo[] properties = e.GetType().GetProperties();
-            for (int i = 0; i < properties.Length; i++)
+            using (StringWriter sb = new StringWriter())
             {
-                result += properties[i].Name + "," + properties[i].GetValue(e) + ",";
-            }
+                sb.Write($"Type,{e.GetType().Name},");
 
-            return result.TrimEnd(',');
+                var properties = e.GetType().GetProperties();
+                foreach (var property in properties)
+                    sb.Write($"{property.Name},{property.GetValue(e)},");
+
+                return sb.ToString().TrimEnd(',');
+            }
         }
+
 
         //public Event Deserialize(string data)
         //{
