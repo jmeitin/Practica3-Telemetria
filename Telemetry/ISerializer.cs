@@ -5,7 +5,7 @@ namespace TrackingSystem
 {
     internal interface ISerializer
     {
-        string Serialize(Event e);
-        Event Deserialize(string data);
+        object Serialize(Event e);
+        //Event Deserialize(string data);
     }
 }

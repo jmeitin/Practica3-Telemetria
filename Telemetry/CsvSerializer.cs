@@ -15,7 +15,7 @@ namespace Telemetry
         private const string Delimiter = ",";
         private const string LineBreak = "\n";
 
-        public string Serialize(Event e)
+        public object Serialize(Event e)
         {
             string result = "Type," + e.GetType().Name + ",";
 
@@ -28,35 +28,35 @@ namespace Telemetry
             return result.TrimEnd(',');
         }
 
-        public Event Deserialize(string data)
-        {
-            var splitData = data.Split(new[] { Delimiter }, StringSplitOptions.RemoveEmptyEntries);
+        //public Event Deserialize(string data)
+        //{
+        //    var splitData = data.Split(new[] { Delimiter }, StringSplitOptions.RemoveEmptyEntries);
 
-            var eventType = Type.GetType($"Telemetry.{splitData[1]}");
-            var eventInstance = Activator.CreateInstance(eventType);
+        //    var eventType = Type.GetType($"Telemetry.{splitData[1]}");
+        //    var eventInstance = Activator.CreateInstance(eventType);
 
-            for (int i = 2; i < splitData.Length; i += 2)
-            {
-                var propertyName = splitData[i];
-                var propertyValue = splitData[i + 1];
-                var property = eventType.GetProperty(propertyName);
+        //    for (int i = 2; i < splitData.Length; i += 2)
+        //    {
+        //        var propertyName = splitData[i];
+        //        var propertyValue = splitData[i + 1];
+        //        var property = eventType.GetProperty(propertyName);
 
-                if (property.PropertyType == typeof(int))
-                {
-                    property.SetValue(eventInstance, int.Parse(propertyValue));
-                }
-                else if (property.PropertyType == typeof(string))
-                {
-                    property.SetValue(eventInstance, propertyValue);
-                }
-                else if (property.PropertyType == typeof(bool))
-                {
-                    property.SetValue(eventInstance, bool.Parse(propertyValue));
-                }
-            }
+        //        if (property.PropertyType == typeof(int))
+        //        {
+        //            property.SetValue(eventInstance, int.Parse(propertyValue));
+        //        }
+        //        else if (property.PropertyType == typeof(string))
+        //        {
+        //            property.SetValue(eventInstance, propertyValue);
+        //        }
+        //        else if (property.PropertyType == typeof(bool))
+        //        {
+        //            property.SetValue(eventInstance, bool.Parse(propertyValue));
+        //        }
+        //    }
 
-            return (Event)eventInstance;
-        }
+        //    return (Event)eventInstance;
+        //}
 
     }
 }
