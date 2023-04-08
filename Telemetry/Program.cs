@@ -1,6 +1,10 @@
 ﻿using System;
+using System.IO;
 using Telemetry;
 using TrackingSystem;
+
+// Remove "./logs.txt" file for testing
+File.Delete("./logs.txt");
 
 // Inicializar sesión
 Tracker.Init();

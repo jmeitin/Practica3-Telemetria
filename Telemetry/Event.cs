@@ -9,9 +9,9 @@ namespace Telemetry
 {
     public abstract class Event
     {
-        public int id_user { get; set; }
-        public int id_session { get; set; }
-        public long send_time { get; set; }
+        public int id_user { get; protected set; }
+        public int id_session { get; protected set; }
+        public long send_time { get; protected set; }
 
         public Event(int user, int session)
         {
@@ -38,7 +38,7 @@ namespace Telemetry
 
     public class StartGame : Event
     {
-        int id_game { get; set; }
+        public int id_game { get; protected set; }
         public StartGame(int user, int session, int game) : base(user, session)
         {
             id_game = game;
@@ -47,7 +47,7 @@ namespace Telemetry
 
     public class EndGame : Event
     {
-        int id_game { get; set; }
+        public int id_game { get; protected set; }
         public EndGame(int user, int session, int game) : base(user, session)
         {
             id_game = game;
@@ -56,7 +56,7 @@ namespace Telemetry
 
     public class GameAborted : Event
     {
-        int id_game { get; set; }
+        public int id_game { get; protected set; }
         public GameAborted(int user, int session, int game) : base(user, session)
         {
             id_game = game;
@@ -68,9 +68,9 @@ namespace Telemetry
     // OBJETIVO 1
     public class TimeStart : Event
     {
-        int id_game { get; set; }
-        int id_quest { get; set; }
-        int id_setQuest { get; set; }
+        public int id_game { get; protected set; }
+        public int id_quest { get; protected set; }
+        public int id_setQuest { get; protected set; }
 
         public TimeStart(int user, int session, int game, int question, int questionSet) : base(user, session)
         {
@@ -82,10 +82,10 @@ namespace Telemetry
 
     public class TimeReply : Event
     {
-        int id_game { get; set; }
-        int id_quest { get; set; }
-        int id_setQuest { get; set; }
-        bool correct { get; set; }
+        public int id_game { get; protected set; }
+        public int id_quest { get; protected set; }
+        public int id_setQuest { get; protected set; }
+        public bool correct { get; protected set; }
 
         public TimeReply(int user, int session, int game, int question, int questionSet, bool result) : base(user, session)
         {
@@ -99,8 +99,8 @@ namespace Telemetry
     // OBJETIVO 2
     public class GetBlock : Event
     {
-        int id_game { get; set; }
-        int id_block { get; set; }
+        public int id_game { get; protected set; }
+        public int id_block { get; protected set; }
 
         public GetBlock(int user, int session, int game, int block) : base(user, session)
         {
