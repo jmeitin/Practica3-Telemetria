@@ -27,11 +27,17 @@ namespace Telemetry
         public StartSession(int user, int session) : base(user, session)
         {
         }
+        public StartSession() : base(0,0)
+        {
+        }
     }
 
     public class EndSession : Event
     {
         public EndSession(int user, int session) : base(user, session)
+        {
+        }
+        public EndSession() : base(0, 0)
         {
         }
     }
@@ -43,6 +49,11 @@ namespace Telemetry
         {
             id_game = game;
         }
+        public StartGame() : base(0, 0)
+        {
+            id_game = 0;
+        }
+
     }
 
     public class EndGame : Event
@@ -52,6 +63,11 @@ namespace Telemetry
         {
             id_game = game;
         }
+
+        public EndGame() : base(0, 0)
+        {
+            id_game = 0;
+        }
     }
 
     public class GameAborted : Event
@@ -60,6 +76,10 @@ namespace Telemetry
         public GameAborted(int user, int session, int game) : base(user, session)
         {
             id_game = game;
+        }
+        public GameAborted() : base(0, 0)
+        {
+            id_game = 0;
         }
     }
 
@@ -78,6 +98,14 @@ namespace Telemetry
             id_quest = question;
             id_setQuest = questionSet;
         }
+
+        public TimeStart() : base(0, 0)
+        {
+            id_game = 0;
+            id_quest = 0;
+            id_setQuest = 0;
+        }
+
     }
 
     public class TimeReply : Event
@@ -94,6 +122,15 @@ namespace Telemetry
             id_setQuest = questionSet;
             correct = result;
         }
+
+        public TimeReply() : base(0, 0)
+        {
+            id_game = 0;
+            id_quest = 0;
+            id_setQuest = 0;
+            correct = false;
+        }
+
     }
 
     // OBJETIVO 2
@@ -107,6 +144,12 @@ namespace Telemetry
             id_game = game;
             id_block = block;
         }
+
+        public GetBlock() : base(0, 0)
+        {
+            id_game = 0;
+            id_block = 0;
+        }
     }
 
     public class GrabBlock : Event
@@ -119,6 +162,12 @@ namespace Telemetry
             id_game = game;
             id_block = block;
         }
+
+        public GrabBlock() : base(0, 0)
+        {
+            id_game = 0;
+            id_block = 0;
+        }
     }
 
     public class ReleaseBlock : Event
@@ -130,6 +179,11 @@ namespace Telemetry
         {
             id_game = game;
             id_block = block;
+        }
+        public ReleaseBlock() : base(0, 0)
+        {
+            id_game = 0; id_block = 0;
+
         }
     }
 }

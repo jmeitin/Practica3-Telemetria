@@ -20,3 +20,10 @@ Tracker.End();
 
 Console.WriteLine("Eventos registrados y persistidos con éxito.");
 
+CsvSerializer serializer= new CsvSerializer();
+StreamReader sr = File.OpenText("./logs.txt");
+string s = sr.ReadLine();
+Event e = serializer.Deserialize(s);
+
+Console.WriteLine(e.id_session);
+Console.WriteLine("Evento deserializado con éxito.");
