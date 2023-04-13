@@ -12,6 +12,7 @@ namespace TrackingSystem
             this.path = path;
         }
 
+        //sobreescribe el meteodo Persist de PersistanceSystem
         protected override void Persist(object data)
         {
             using (StreamWriter sw = File.AppendText(path))

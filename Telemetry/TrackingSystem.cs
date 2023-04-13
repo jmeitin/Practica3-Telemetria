@@ -9,8 +9,9 @@ namespace TrackingSystem
     sealed class Tracker
     {
         // Miembros =======================================================
-        private ConcurrentQueue<Event> queue; // Cola concurrente de C# para cuando funcionen los hilos
         private static Tracker instance;
+
+        private ConcurrentQueue<Event> queue; // Cola concurrente de C# para cuando funcionen los hilos
         private List<IPersistance> persisters;
         private Thread persistThread;
 

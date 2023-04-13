@@ -16,6 +16,7 @@ namespace Telemetry
             serializer = new CsvSerializer();
         }
 
+        // Object dado que puede ser csv o json
         protected abstract void Persist(object data);
 
         public void Persist(Event e)
