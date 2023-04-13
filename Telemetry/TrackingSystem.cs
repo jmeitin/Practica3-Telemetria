@@ -6,7 +6,7 @@ using Telemetry;
 
 namespace TrackingSystem
 {
-    sealed class Tracker
+    public sealed class Tracker
     {
         // Miembros =======================================================
         private static Tracker instance;
