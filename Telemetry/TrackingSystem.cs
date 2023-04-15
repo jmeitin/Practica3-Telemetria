@@ -52,9 +52,9 @@ namespace TrackingSystem
         // pero no sé, también puede ser estático y que el propio método sea el que llame a la instancia, no hay mucha diferencia en verdad
         // si la instancia es null no hará nada y ya. Quizás debería hacer que devuelva un booleano como teniamos antes, pero no estoy seguro, 
         // en la plantilla de guille eso no viene. Ademas el track event no deberia fallar, creo
-        public static void TrackEvent(Event evnt)
+        public void TrackEvent(Event evnt)
         {
-            instance?.queue.Enqueue(evnt);
+            queue.Enqueue(evnt);
         }
 
         //private static void PersistLoop()
