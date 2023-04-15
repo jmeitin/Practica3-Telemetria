@@ -6,11 +6,13 @@ using TrackingSystem;
 
 // Remove "./logs.txt" file for testing
 File.Delete("./logs.csv");
+File.Delete("./logs.json");
 
 // Inicializar sesión
 Tracker.Init();
 
 // Realizar algunas acciones
+Tracker.Instance.AddPersistanceSystem(new FilePersistance(new CsvSerializer(), "./logs.csv"));
 Tracker.Instance.TrackEvent(new StartGame(1234, 1, 1));
 Tracker.Instance.TrackEvent(new TimeStart(1234, 1, 1, 1, 1));
 Tracker.Instance.TrackEvent(new TimeReply(1234, 1, 1, 1, 1, true));

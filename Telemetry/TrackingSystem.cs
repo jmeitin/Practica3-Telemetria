@@ -31,7 +31,7 @@ namespace TrackingSystem
             instance = new Tracker();
 
             // Por defecto un FilePersistance, pero el usuario puede añadir externamente lo que quiera
-            instance.persisters.Add(new FilePersistance(new CsvSerializer(), "./logs.csv"));
+            instance.persisters.Add(new FilePersistance(new JSONSerializer(), "./logs.json"));
             instance.queue.Enqueue(new StartSession(1, 1));
 
             // Inicializar hilo
