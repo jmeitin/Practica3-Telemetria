@@ -5,7 +5,7 @@ using Telemetry;
 using TrackingSystem;
 
 // Remove "./logs.txt" file for testing
-File.Delete("./logs.txt");
+File.Delete("./logs.csv");
 
 // Inicializar sesión
 Tracker.Init();
