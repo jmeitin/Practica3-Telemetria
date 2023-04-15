@@ -11,18 +11,12 @@ namespace Telemetry
     {
         private readonly ISerializer serializer;
 
-        protected PersistanceSystem()
-        {
-            serializer = new CsvSerializer();
-        }
+        protected PersistanceSystem(ISerializer serializer) => this.serializer = serializer;
 
-        // Object dado que puede ser csv o json
+        // Object dado que puede ser csv, json, binario o cualquier cosa
         protected abstract void Persist(object data);
 
-        public void Persist(Event e)
-        {
-            Persist(serializer.Serialize(e));
-        }
+        public void Persist(Event e) => Persist(serializer.Serialize(e));
     }
 }
 

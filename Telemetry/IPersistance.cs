@@ -2,7 +2,7 @@
 
 namespace TrackingSystem
 {
-    internal interface IPersistance
+     public interface IPersistance
     {
         void Persist(Event e);
     }

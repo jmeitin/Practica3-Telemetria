@@ -29,7 +29,9 @@ namespace TrackingSystem
         public static void Init()
         {
             instance = new Tracker();
-            instance.persisters.Add(new FilePersistance("./logs.txt"));
+
+            // Por defecto un FilePersistance, pero el usuario puede añadir externamente lo que quiera
+            instance.persisters.Add(new FilePersistance(new CsvSerializer(), "./logs.txt"));
             instance.queue.Enqueue(new StartSession(1, 1));
 
             // Inicializar hilo
@@ -48,7 +50,7 @@ namespace TrackingSystem
             // Esperar a que termine el hilo
             instance.persistThread.Join();
 
-            PersistAllEvents(); // Persistir los eventos restantes
+            instance.PersistAllEvents(); // Persistir los eventos restantes
         }
 
         // Propiedades =====================================================
@@ -61,6 +63,8 @@ namespace TrackingSystem
         // en la plantilla de guille eso no viene. Ademas el track event no deberia fallar, creo
         public void TrackEvent(Event evnt) => queue.Enqueue(evnt);
 
+        public void AddPersistanceSystem(IPersistance persister) => this.persisters.Add(persister);
+
         private static void PersistLoop(CancellationToken cancellationToken)
         {
             while (true)
@@ -70,12 +74,11 @@ namespace TrackingSystem
                 if (result != WaitHandle.WaitTimeout)
                     break;
                 
-                PersistAllEvents();
+                instance.PersistAllEvents();
             }
         }
 
-
-        private static void PersistAllEvents()
+        private void PersistAllEvents()
         {
             while (instance.queue.TryDequeue(out var evnt))
             {
