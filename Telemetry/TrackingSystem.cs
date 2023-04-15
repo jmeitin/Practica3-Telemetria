@@ -10,8 +10,10 @@ namespace TrackingSystem
     {
         // Miembros =======================================================
         private static Tracker instance;
+        private CancellationTokenSource cancellationTokenSource; // Token de cancelación para parar el hilo instantáneamente
+        const UInt16 SAVING_FREQUENCY_MS = 5000; //
 
-        private ConcurrentQueue<Event> queue; // Cola concurrente de C# para cuando funcionen los hilos
+        private ConcurrentQueue<Event> queue;
         private List<IPersistance> persisters;
         private Thread persistThread;
 
@@ -19,6 +21,7 @@ namespace TrackingSystem
         private Tracker()
         {
             queue = new ConcurrentQueue<Event>();
+            cancellationTokenSource = new CancellationTokenSource();
             persisters = new List<IPersistance>();
         }
 
@@ -29,8 +32,9 @@ namespace TrackingSystem
             instance.persisters.Add(new FilePersistance("./logs.txt"));
             instance.queue.Enqueue(new StartSession(1, 1));
 
-            //instance.persistThread = new Thread(new ThreadStart(PersistLoop));
-            //instance.persistThread.Start();
+            // Inicializar hilo
+            instance.persistThread = new Thread(() => PersistLoop(instance.cancellationTokenSource.Token));
+            instance.persistThread.Start();
         }
 
         // Método End ======================================================
@@ -38,9 +42,12 @@ namespace TrackingSystem
         {
             instance.queue.Enqueue(new EndSession(1, 1));
 
-            //while (!instance.queue.IsEmpty) { } // Esperar a que la cola se vacíe
+            // Solicitar la cancelación
+            instance.cancellationTokenSource.Cancel();
 
-            //instance.persistThread.Abort(); // Terminar el hilo persistente
+            // Esperar a que termine el hilo
+            instance.persistThread.Join();
+
             PersistAllEvents(); // Persistir los eventos restantes
         }
 
@@ -52,20 +59,21 @@ namespace TrackingSystem
         // pero no sé, también puede ser estático y que el propio método sea el que llame a la instancia, no hay mucha diferencia en verdad
         // si la instancia es null no hará nada y ya. Quizás debería hacer que devuelva un booleano como teniamos antes, pero no estoy seguro, 
         // en la plantilla de guille eso no viene. Ademas el track event no deberia fallar, creo
-        public void TrackEvent(Event evnt)
+        public void TrackEvent(Event evnt) => queue.Enqueue(evnt);
+
+        private static void PersistLoop(CancellationToken cancellationToken)
         {
-            queue.Enqueue(evnt);
+            while (true)
+            {
+                int result = WaitHandle.WaitAny(new WaitHandle[] { cancellationToken.WaitHandle }, TimeSpan.FromMilliseconds(SAVING_FREQUENCY_MS));
+
+                if (result != WaitHandle.WaitTimeout)
+                    break;
+                
+                PersistAllEvents();
+            }
         }
 
-        //private static void PersistLoop()
-        //{
-        //    while (true)
-        //    {
-        //        Thread.Sleep(5000); // Esperar 5 segundos
-
-        //        PersistAllEvents();
-        //    }
-        //}
 
         private static void PersistAllEvents()
         {
