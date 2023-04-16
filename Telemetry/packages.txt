@@ -1,0 +1,15 @@
+{
+  "name": "com.telemetry.trackingsystem",
+  "displayName": "Telemetry Tracking System",
+  "version": "1.0.0",
+  "unity": "2020.3",
+  "description": "A tracking system for Unity games",
+  "dependencies": {
+    "com.newtonsoft.json": "12.0.3"
+  },
+  "keywords": [
+    "telemetry",
+    "tracking",
+    "unity"
+  ]
+}
