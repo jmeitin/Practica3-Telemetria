@@ -3,6 +3,9 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 using Telemetry;
+using Telemetry.Interfaces;
+using Telemetry.PersistanceSystem;
+using Telemetry.SerializationSystem;
 
 namespace TrackingSystem
 {

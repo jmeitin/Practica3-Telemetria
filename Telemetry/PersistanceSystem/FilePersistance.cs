@@ -1,7 +1,7 @@
 ﻿using System.IO;
-using Telemetry;
+using Telemetry.Interfaces;
 
-namespace TrackingSystem
+namespace Telemetry.PersistanceSystem
 {
     internal class FilePersistance : PersistanceSystem
     {

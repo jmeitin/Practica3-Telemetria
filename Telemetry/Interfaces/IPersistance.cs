@@ -1,8 +1,8 @@
 ﻿using Telemetry;
 
-namespace TrackingSystem
+namespace Telemetry.Interfaces
 {
-     public interface IPersistance
+    public interface IPersistance
     {
         void Persist(Event e);
     }

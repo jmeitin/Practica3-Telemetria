@@ -1,7 +1,7 @@
 ﻿using System;
 using Telemetry;
 
-namespace TrackingSystem
+namespace Telemetry.Interfaces
 {
     internal interface ISerializer
     {

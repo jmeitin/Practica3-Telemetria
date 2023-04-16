@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Telemetry.Interfaces;
 using TrackingSystem;
 
-namespace Telemetry
+namespace Telemetry.PersistanceSystem
 {
     internal abstract class PersistanceSystem : IPersistance
     {

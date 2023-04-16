@@ -6,9 +6,9 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
-using TrackingSystem;
+using Telemetry.Interfaces;
 
-namespace Telemetry
+namespace Telemetry.SerializationSystem
 {
     internal class CsvSerializer : ISerializer
     {

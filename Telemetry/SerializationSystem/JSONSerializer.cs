@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TrackingSystem;
+using Telemetry.Interfaces;
 
-namespace Telemetry
+namespace Telemetry.SerializationSystem
 {
     public class JSONSerializer : ISerializer
     {
