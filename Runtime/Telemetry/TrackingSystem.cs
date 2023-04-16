@@ -7,7 +7,7 @@ using Telemetry.Interfaces;
 using Telemetry.PersistanceSystem;
 using Telemetry.SerializationSystem;
 
-namespace TrackingSystem
+namespace Telemetry
 {
     public sealed class Tracker
     {
