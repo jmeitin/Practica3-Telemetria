@@ -9,14 +9,16 @@ namespace Telemetry
 {
     public abstract class Event
     {
-        public int id_user { get; protected set; }
-        public int id_session { get; protected set; }
+        public string id_user { get; internal set; }
+        public Guid id_session { get; internal set; }
+        public int id_game { get; internal set; }
         public long send_time { get; protected set; }
 
-        public Event(int user, int session)
+        public Event()
         {
-            id_user = user;
-            id_session = session;
+            id_user = "0";
+            id_session = Guid.Empty;
+            id_game = -1;
             send_time = DateTimeOffset.Now.ToUnixTimeSeconds();
         }
     }
@@ -24,62 +26,36 @@ namespace Telemetry
     // EVENTOS GENERALES =======================================================================
     public class StartSession : Event
     {
-        public StartSession(int user, int session) : base(user, session)
-        {
-        }
-        public StartSession() : base(0,0)
+        public StartSession()
         {
         }
     }
 
     public class EndSession : Event
     {
-        public EndSession(int user, int session) : base(user, session)
-        {
-        }
-        public EndSession() : base(0, 0)
+        public EndSession()
         {
         }
     }
 
     public class StartGame : Event
     {
-        public int id_game { get; protected set; }
-        public StartGame(int user, int session, int game) : base(user, session)
+        public StartGame()
         {
-            id_game = game;
         }
-        public StartGame() : base(0, 0)
-        {
-            id_game = 0;
-        }
-
     }
 
     public class EndGame : Event
     {
-        public int id_game { get; protected set; }
-        public EndGame(int user, int session, int game) : base(user, session)
+        public EndGame()
         {
-            id_game = game;
-        }
-
-        public EndGame() : base(0, 0)
-        {
-            id_game = 0;
         }
     }
 
     public class GameAborted : Event
     {
-        public int id_game { get; protected set; }
-        public GameAborted(int user, int session, int game) : base(user, session)
+        public GameAborted()
         {
-            id_game = game;
-        }
-        public GameAborted() : base(0, 0)
-        {
-            id_game = 0;
         }
     }
 
@@ -88,102 +64,78 @@ namespace Telemetry
     // OBJETIVO 1
     public class TimeStart : Event
     {
-        public int id_game { get; protected set; }
         public int id_quest { get; protected set; }
         public int id_setQuest { get; protected set; }
 
-        public TimeStart(int user, int session, int game, int question, int questionSet) : base(user, session)
+        public TimeStart(int question, int questionSet)
         {
-            id_game = game;
             id_quest = question;
             id_setQuest = questionSet;
         }
 
-        public TimeStart() : base(0, 0)
+        public TimeStart() : this(0, 0)
         {
-            id_game = 0;
-            id_quest = 0;
-            id_setQuest = 0;
         }
-
     }
 
     public class TimeReply : Event
     {
-        public int id_game { get; protected set; }
         public int id_quest { get; protected set; }
         public int id_setQuest { get; protected set; }
         public bool correct { get; protected set; }
 
-        public TimeReply(int user, int session, int game, int question, int questionSet, bool result) : base(user, session)
+        public TimeReply(int question, int questionSet, bool result)
         {
-            id_game = game;
             id_quest = question;
             id_setQuest = questionSet;
             correct = result;
         }
 
-        public TimeReply() : base(0, 0)
+        public TimeReply() : this(0, 0, false)
         {
-            id_game = 0;
-            id_quest = 0;
-            id_setQuest = 0;
-            correct = false;
         }
-
     }
 
     // OBJETIVO 2
     public class GetBlock : Event
     {
-        public int id_game { get; protected set; }
         public int id_block { get; protected set; }
 
-        public GetBlock(int user, int session, int game, int block) : base(user, session)
+        public GetBlock(int block)
         {
-            id_game = game;
             id_block = block;
         }
 
-        public GetBlock() : base(0, 0)
+        public GetBlock() : this(0)
         {
-            id_game = 0;
-            id_block = 0;
         }
     }
 
     public class GrabBlock : Event
     {
-        int id_game { get; set; }
         int id_block { get; set; }
 
-        public GrabBlock(int user, int session, int game, int block) : base(user, session)
+        public GrabBlock(int block)
         {
-            id_game = game;
             id_block = block;
         }
 
-        public GrabBlock() : base(0, 0)
+        public GrabBlock() : this( 0)
         {
-            id_game = 0;
-            id_block = 0;
         }
     }
 
     public class ReleaseBlock : Event
     {
-        int id_game { get; set; }
         int id_block { get; set; }
 
-        public ReleaseBlock(int user, int session, int game, int block) : base(user, session)
+        public ReleaseBlock(int block)
         {
-            id_game = game;
             id_block = block;
         }
-        public ReleaseBlock() : base(0, 0)
-        {
-            id_game = 0; id_block = 0;
 
+        public ReleaseBlock() : this(0)
+        {
         }
     }
 }

@@ -9,14 +9,14 @@ File.Delete("./logs.csv");
 File.Delete("./logs.json");
 
 // Inicializar sesión
-Tracker.Init();
+Tracker.Init("Fede");
 
 // Realizar algunas acciones
 Tracker.Instance.AddPersistanceSystem(new FilePersistance(new CsvSerializer(), "./logs.csv"));
-Tracker.Instance.TrackEvent(new StartGame(1234, 1, 1));
-Tracker.Instance.TrackEvent(new TimeStart(1234, 1, 1, 1, 1));
-Tracker.Instance.TrackEvent(new TimeReply(1234, 1, 1, 1, 1, true));
-Tracker.Instance.TrackEvent(new EndGame(1234, 1, 1));
+Tracker.Instance.TrackEvent(new StartGame());
+Tracker.Instance.TrackEvent(new TimeStart(1, 2));
+Tracker.Instance.TrackEvent(new TimeReply(1, 1, true));
+Tracker.Instance.TrackEvent(new EndGame());
 
 // Finalizar sesión y persistir eventos
 Tracker.End();

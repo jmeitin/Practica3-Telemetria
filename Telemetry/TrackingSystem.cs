@@ -17,22 +17,30 @@ namespace TrackingSystem
         private List<IPersistance> persisters;
         private Thread persistThread;
 
+        // Gestion de eventos
+        int gameID;
+        string userID;
+        Guid sessionID;
+
         // Constructor privado =============================================
-        private Tracker()
+        private Tracker(string userID)
         {
             queue = new ConcurrentQueue<Event>();
             cancellationTokenSource = new CancellationTokenSource();
             persisters = new List<IPersistance>();
+            this.userID = userID;
+            this.sessionID = Guid.NewGuid();
+            this.gameID = -1;
         }
 
         // Método Init =====================================================
-        public static void Init()
+        public static void Init(string userID)
         {
-            instance = new Tracker();
+            instance = new Tracker(userID);
 
             // Por defecto un FilePersistance, pero el usuario puede añadir externamente lo que quiera
             instance.persisters.Add(new FilePersistance(new JSONSerializer(), "./logs.json"));
-            instance.queue.Enqueue(new StartSession(1, 1));
+            instance.TrackEvent(new StartSession());
 
             // Inicializar hilo
             instance.persistThread = new Thread(() => PersistLoop(instance.cancellationTokenSource.Token));
@@ -42,7 +50,7 @@ namespace TrackingSystem
         // Método End ======================================================
         public static void End()
         {
-            instance.queue.Enqueue(new EndSession(1, 1));
+            instance.TrackEvent(new EndSession());
 
             // Solicitar la cancelación
             instance.cancellationTokenSource.Cancel();
@@ -61,7 +69,18 @@ namespace TrackingSystem
         // pero no sé, también puede ser estático y que el propio método sea el que llame a la instancia, no hay mucha diferencia en verdad
         // si la instancia es null no hará nada y ya. Quizás debería hacer que devuelva un booleano como teniamos antes, pero no estoy seguro, 
         // en la plantilla de guille eso no viene. Ademas el track event no deberia fallar, creo
-        public void TrackEvent(Event evnt) => queue.Enqueue(evnt);
+        public void TrackEvent(Event evnt)
+        {
+            // Controlar el numero de partidas
+            if (evnt is StartGame)
+                gameID++;
+
+            evnt.id_session = instance.sessionID;
+            evnt.id_user = instance.userID;
+            evnt.id_game = instance.gameID;
+
+            queue.Enqueue(evnt);
+        }
 
         public void AddPersistanceSystem(IPersistance persister) => this.persisters.Add(persister);
 
@@ -73,7 +92,7 @@ namespace TrackingSystem
 
                 if (result != WaitHandle.WaitTimeout)
                     break;
-                
+
                 instance.PersistAllEvents();
             }
         }
