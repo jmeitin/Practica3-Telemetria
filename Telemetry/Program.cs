@@ -1,10 +1,8 @@
 using System;
 using System.IO;
-using System.Threading;
 using Telemetry;
 using Telemetry.PersistanceSystem;
 using Telemetry.SerializationSystem;
-using TrackingSystem;
 
 // Remove "./logs.txt" file for testing
 File.Delete("./logs.csv");
