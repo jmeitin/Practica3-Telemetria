@@ -10,7 +10,7 @@ using Telemetry.Interfaces;
 
 namespace Telemetry.SerializationSystem
 {
-    internal class CsvSerializer : ISerializer
+    public sealed class CsvSerializer : ISerializer
     {
         private const string Delimiter = ",";
         private const string LineBreak = "\n";
